@@ -36,6 +36,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  # get screen size
+  sizer: ^2.0.15
+
+  # state managenment
+  flutter_bloc: ^8.1.2
+
+  # JSON serialization and deserialization
+  json_annotation: ^4.8.1
+
+  # generate to/from JSON code
+  json_serializable: ^6.6.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

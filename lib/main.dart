@@ -1,21 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/app/view/app.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ,
-        useMaterial3: true,
-      ),
-      home: ,
-    );
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const App());
 }
