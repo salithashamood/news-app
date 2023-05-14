@@ -1,5 +1,6 @@
 import 'package:api_client/api_client.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:utilities/utilities.dart';
 
@@ -49,5 +50,16 @@ class HomePageCubit extends Cubit<HomePageState> {
   tappedCategory(String tapped) {
     selectedCategory = tapped;
     getNewsByCategory(selectedCategory);
+  }
+
+  Widget setImage(image) {
+    if (image != null) {
+      return Image.network(
+        image,
+        fit: BoxFit.contain,
+      );
+    } else {
+      return Image.asset('assets/icons/logo.jpg');
+    }
   }
 }

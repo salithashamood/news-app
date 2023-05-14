@@ -1,7 +1,8 @@
-import 'package:api_client/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/pages/home_page/cubit/home_page_cubit.dart';
+import 'package:news_app/pages/news_page/cubit/news_page_cubit.dart';
+import 'package:news_app/pages/news_page/news_page.dart';
 import 'package:news_app/theme/theme.dart';
 import 'package:sizer/sizer.dart';
 
@@ -67,14 +68,26 @@ class HomePage extends StatelessWidget {
               ],
             ),
             SizedBox(
-                height: 240,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
+              height: 240,
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (context) => NewsPageCubit(
+                                    homePageCubit.latestNews.articles![index]),
+                                child: NewsPage(),
+                              ),
+                            ));
+                      },
                       child: Card(
                         key: UniqueKey(),
                         color: secondryColor,
@@ -84,15 +97,9 @@ class HomePage extends StatelessWidget {
                         elevation: 1,
                         child: Stack(
                           children: [
-                            (homePageCubit.latestNews.articles![index]
-                                        .urlToImage! ==
-                                    null)
-                                ? Image.asset('assets/icons/logo.jpg')
-                                : Image.network(
-                                    homePageCubit.latestNews.articles![index]
-                                        .urlToImage!,
-                                    fit: BoxFit.contain,
-                                  ),
+                            homePageCubit.setImage(homePageCubit
+                                    .latestNews.articles![index].urlToImage ??
+                                null),
                             Positioned(
                               top: 10,
                               child: Padding(
@@ -113,9 +120,11 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    );
-                  },
-                ),),
+                    ),
+                  );
+                },
+              ),
+            ),
             BlocBuilder<HomePageCubit, HomePageState>(
               buildWhen: (previous, current) {
                 if (current is HomePageCategoryNewsLoading) {
@@ -186,49 +195,59 @@ class HomePage extends StatelessWidget {
                   return ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: 10,
+                    itemCount: homePageCubit.categoryNews.articles!.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
                           width: 90.w,
-                          child: Card(
-                            key: UniqueKey(),
-                            color: secondryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            elevation: 1,
-                            child: Stack(
-                              children: [
-                                (homePageCubit.categoryNews.articles![index]
-                                            .urlToImage! ==
-                                        null)
-                                    ? Image.asset('assets/icons/logo.jpg')
-                                    : Image.network(
-                                        homePageCubit.categoryNews
-                                            .articles![index].urlToImage!,
-                                        fit: BoxFit.contain,
-                                      ),
-                                Positioned(
-                                  top: 10,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      width: 300,
-                                      child: Text(
-                                        homePageCubit.categoryNews
-                                            .articles![index].title!,
-                                        style: const TextStyle(
-                                          color: primaryColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BlocProvider(
+                                      create: (context) => NewsPageCubit(
+                                          homePageCubit
+                                              .categoryNews.articles![index]),
+                                      child: NewsPage(),
+                                    ),
+                                  ));
+                            },
+                            child: Card(
+                              key: UniqueKey(),
+                              color: secondryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              elevation: 1,
+                              child: Stack(
+                                children: [
+                                  homePageCubit.setImage(homePageCubit
+                                          .categoryNews
+                                          .articles![index]
+                                          .urlToImage ??
+                                      null),
+                                  Positioned(
+                                    top: 10,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 300,
+                                        child: Text(
+                                          homePageCubit.categoryNews
+                                              .articles![index].title!,
+                                          style: const TextStyle(
+                                            color: primaryColor,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
