@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/pages/home_page/cubit/home_page_cubit.dart';
 import 'package:news_app/pages/home_page/home_page.dart';
+import 'package:news_app/pages/loading_page/cubit/loading_page_cubit.dart';
+import 'package:news_app/pages/loading_page/loading_page.dart';
 import 'package:news_app/pages/login_page/cubit/login_cubit.dart';
 import 'package:news_app/pages/login_page/widgets/sign_in.dart';
 import 'package:news_app/pages/login_page/widgets/sign_up.dart';
@@ -51,7 +54,10 @@ class LoginPage extends StatelessWidget {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomePage(),
+                          builder: (context) => BlocProvider(
+                            create: (context) => LoadingPageCubit(),
+                            child: LoadingPage(),
+                          ),
                         ));
                   }
                 },

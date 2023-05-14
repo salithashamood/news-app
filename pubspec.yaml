@@ -37,9 +37,12 @@ dependencies:
 
   local_database:
     path: packages/local_database
-  
+
   utilities:
     path: packages/utilities
+
+  api_client:
+    path: packages/api_client
 
   # get screen size
   sizer: ^2.0.15
