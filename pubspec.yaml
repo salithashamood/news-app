@@ -35,6 +35,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  local_database:
+    path: packages/local_database
+  
+  utilities:
+    path: packages/utilities
+
   # get screen size
   sizer: ^2.0.15
 
@@ -46,7 +52,6 @@ dependencies:
 
   # generate to/from JSON code
   json_serializable: ^6.6.2
-
 
 dev_dependencies:
   flutter_test:

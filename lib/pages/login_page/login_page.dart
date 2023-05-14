@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/pages/home_page/home_page.dart';
 import 'package:news_app/pages/login_page/cubit/login_cubit.dart';
 import 'package:news_app/pages/login_page/widgets/sign_in.dart';
 import 'package:news_app/pages/login_page/widgets/sign_up.dart';
@@ -30,7 +31,30 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: 1.h,
               ),
-              BlocBuilder<LoginCubit, LoginState>(
+              BlocConsumer<LoginCubit, LoginState>(
+                buildWhen: (previous, current) {
+                  if (current is LoginFailier || current is LoginLoading) {
+                    return false;
+                  } else {
+                    return true;
+                  }
+                },
+                listener: (context, state) {
+                  if (state is LoginFailier) {
+                    final snackBar = SnackBar(
+                      backgroundColor: secondryColor,
+                      content: Text(state.error),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                  if (state is LoginSucsess) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ));
+                  }
+                },
                 builder: (context, state) {
                   if (state is LoginTappedLogin) {
                     return SignIn();
