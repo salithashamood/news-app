@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/app/bloc/app_bloc.dart';
+import 'package:news_app/pages/home_page/cubit/home_page_cubit.dart';
 import 'package:news_app/pages/home_page/home_page.dart';
+import 'package:news_app/pages/loading_page/cubit/loading_page_cubit.dart';
+import 'package:news_app/pages/loading_page/loading_page.dart';
 import 'package:news_app/pages/login_page/cubit/login_cubit.dart';
 import 'package:news_app/pages/login_page/login_page.dart';
 import 'package:news_app/theme/theme.dart';
@@ -19,6 +22,9 @@ class App extends StatelessWidget {
       BlocProvider<LoginCubit>(
         create: (context) => LoginCubit(),
       ),
+      BlocProvider<LoadingPageCubit>(
+        create: (context) => LoadingPageCubit(),
+      )
     ], child: const AppInit());
   }
 }
@@ -43,7 +49,10 @@ class AppInit extends StatelessWidget {
                 );
               }
               if (state is AppRouteToHomePage) {
-                return const HomePage();
+                return BlocProvider(
+                  create: (context) => LoadingPageCubit(),
+                  child: const LoadingPage(),
+                );
               }
               if (state is AppRouteToLoginPage) {
                 return const LoginPage();
